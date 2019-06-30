@@ -1,4 +1,6 @@
 #include <stdio.h>
+#define CANT_SPRITES_ARCHIVO 6
+#define CANT_COLS 2
 
 typedef struct sprite
 {
@@ -7,33 +9,68 @@ typedef struct sprite
 	float (*coords)[2];
 }sprite_t;
 
-sprite_t * sprite_crear(uint16_t cantidad)
+sprite_t * sprite_crear(char* nombre, uint16_t cantidad, float **cords, size_t col)
 {
 	sprite_t * p;
-	p = malloc(sizeof(punto_t));
+	p = malloc(sizeof(sprite_t));
 
-	p -> n = cantidad;
-	p -> coords = malloc(sizeof(float *) * (p->n));
+	p->nombre = nombre;
+	p->n = cantidad;
+	p->coords = malloc(sizeof(float *) * (p->n));
+
+	size_t i, j;
+
+	for(i = 0; i < cantidad; i++)
+		for(j = 0; j < col; j++)
+				p->cords[i][j] = cords[i][j];
 
 	return p;
 }
 
 
-bool levantar_un_sprite(sprite_t *p)
+sprite_t* sprite_levantar(FILE *fp)
 {
-	FILE * fp;
-	fp = fopen (sprites.bin, "r");
-	if(fp == NULL)
-		return false;
+	char nombre[MAX];
 
-	if(fread(p -> nombre, sizeof(char), MAX, f) != MAX)
-				return false;
+	if(fread(nombre, sizeof(char), MAX, fp) != MAX)
+				return NULL;
 
-	if(!fread(&(p -> n), sizeof(uint16_t), 1, f))
-				retrun false;
+	uint16_t cant_coord;
+	if(!fread(&cant_coord, sizeof(uint16_t), 1, fp))
+				return NULL;
 
-	if(!fread(p -> coords, sizeof(float *), (p -> n), f))
-				return false;
+	float coords[cant_coord][CANT_COLS];
+	if(fread(coords, sizeof(float), cant_coord * CANT_COLS, fp)  != (cant_coord * CANT_COLS))
+				return NULL;
 
-	return true;
+	sprite_t * psprite = sprite_crear(nombre, cant_coord, coords, CANT_COLS);
+	if (psprite == NULL)
+		return NULL;
+
+
+	return psprite;
+}
+
+
+sprite_t** sprites_desde_archivo(*sprites_cant)
+{
+	sprite_t** v_sprite = malloc(sizeof(sprite_t*) * CANT_SPRITES_ARCHIVO);
+	if(sprite == NULL)
+		return NULL;
+
+	FILE* pfread;
+	pfread = fopen("sprites.bin", "r");
+	if(pfread == NULL)
+		return NULL;
+
+	size_t i;
+	for(i = 0; i < CANT_SPRITES_ARCHIVO; i++)
+	{
+		v_sprite[i] = sprite_levantar(pfread);
+	}
+
+
+
+
+	return v_sprite;
 }

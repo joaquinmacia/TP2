@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <time.h>
 #include <math.h>
+#include <stdio.h>
 
 
 int main()

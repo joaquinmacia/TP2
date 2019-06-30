@@ -21,6 +21,10 @@ int main()
 	srand (time(NULL));
 
 	//Condiciones iniciales de partida:
+	int* sprites_cant_levantada;
+	sprite_t** v_sprite = sprites_desde_archivo(sprites_cant_levantada);
+	if (v_sprite)
+		return EXIT_FAILURE;
 
 
 	// END código del alumno

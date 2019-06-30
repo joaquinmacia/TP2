@@ -1,20 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 #define CANT_SPRITES_ARCHIVO 6
 #define CANT_COLS 2
+#define MAX_NOMBRE 10
+
 
 typedef struct sprite
 {
 	char nombre[10];
 	uint16_t n;
-	float (*coords)[2];
+	float **coords;
 }sprite_t;
 
-sprite_t * sprite_crear(char* nombre, uint16_t cantidad, float **cords, size_t col)
+sprite_t * sprite_crear(char* nombre, uint16_t cantidad, float (*coords)[CANT_COLS], size_t col)
 {
 	sprite_t * p;
 	p = malloc(sizeof(sprite_t));
 
-	p->nombre = nombre;
+	strcpy(p->nombre, nombre);
 	p->n = cantidad;
 	p->coords = malloc(sizeof(float *) * (p->n));
 
@@ -22,7 +27,7 @@ sprite_t * sprite_crear(char* nombre, uint16_t cantidad, float **cords, size_t c
 
 	for(i = 0; i < cantidad; i++)
 		for(j = 0; j < col; j++)
-				p->cords[i][j] = cords[i][j];
+				p->coords[i][j] = coords[i][j];
 
 	return p;
 }
@@ -30,9 +35,9 @@ sprite_t * sprite_crear(char* nombre, uint16_t cantidad, float **cords, size_t c
 
 sprite_t* sprite_levantar(FILE *fp)
 {
-	char nombre[MAX];
+	char nombre[MAX_NOMBRE];
 
-	if(fread(nombre, sizeof(char), MAX, fp) != MAX)
+	if(fread(nombre, sizeof(char), MAX_NOMBRE, fp) != MAX_NOMBRE)
 				return NULL;
 
 	uint16_t cant_coord;
@@ -52,10 +57,10 @@ sprite_t* sprite_levantar(FILE *fp)
 }
 
 
-sprite_t** sprites_desde_archivo(*sprites_cant)
+sprite_t** sprites_desde_archivo(int* sprites_cant)
 {
 	sprite_t** v_sprite = malloc(sizeof(sprite_t*) * CANT_SPRITES_ARCHIVO);
-	if(sprite == NULL)
+	if(v_sprite == NULL)
 		return NULL;
 
 	FILE* pfread;
@@ -70,7 +75,7 @@ sprite_t** sprites_desde_archivo(*sprites_cant)
 	}
 
 
-
+	*sprites_cant = i;
 
 	return v_sprite;
 }

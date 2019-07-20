@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#define CANT_SPRITES_ARCHIVO 6
-#define CANT_COLS 2
-#define MAX_NOMBRE 10
+#include "graficador.h"
 
 
 typedef struct sprite
@@ -38,15 +32,15 @@ sprite_t* sprite_levantar(FILE *fp)
 	char nombre[MAX_NOMBRE];
 
 	if(fread(nombre, sizeof(char), MAX_NOMBRE, fp) != MAX_NOMBRE)
-				return NULL;
+		return NULL;
 
 	uint16_t cant_coord;
 	if(!fread(&cant_coord, sizeof(uint16_t), 1, fp))
-				return NULL;
+		return NULL;
 
 	float coords[cant_coord][CANT_COLS];
 	if(fread(coords, sizeof(float), cant_coord * CANT_COLS, fp)  != (cant_coord * CANT_COLS))
-				return NULL;
+		return NULL;
 
 	sprite_t * psprite = sprite_crear(nombre, cant_coord, coords, CANT_COLS);
 	if (psprite == NULL)
@@ -78,4 +72,48 @@ sprite_t** sprites_desde_archivo(int* sprites_cant)
 	*sprites_cant = i;
 
 	return v_sprite;
+}
+
+bool graficador_inicializar(const char *fn, SDL_Renderer *r)
+{
+
+
+
+}
+
+
+void graficador_finalizar()
+{
+
+
+}
+
+
+bool graficador_dibujar(const char *nombre, float escala, float x, float y, float angulo)
+{
+
+
+
+}
+
+
+void graficador_ajustar_variables(float *x, float *y)
+{
+	float ventana_ancho;
+	float ventana_alto;
+
+	SDL_GetRendererOutputSize(renderer, &ventana_ancho, &ventana_alto);
+
+	if(*x > ventana_ancho)
+		*x = 0.0;
+
+	if(*x < 0.0)
+		*x = ventana_ancho;
+
+	if(*y > ventana_alto)
+		*y = 0.0;
+
+	if(*y < 0.0)
+		*y = ventana_alto;
+
 }

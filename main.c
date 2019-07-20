@@ -2,9 +2,10 @@
 #include <time.h>
 #include <math.h>
 #include <stdio.h>
+#include "config.h"
 
 
-int main()
+int int main(int argc, char const *argv[])
 {
 	SDL_Init(SDL_INIT_VIDEO);
 
@@ -19,12 +20,9 @@ int main()
 
 	// BEGIN código del alumno
 	srand (time(NULL));
+	float juego_tiempo = 0;
 
 	//Condiciones iniciales de partida:
-	int* sprites_cant_levantada;
-	sprite_t** v_sprite = sprites_desde_archivo(sprites_cant_levantada);
-	if (v_sprite)
-		return EXIT_FAILURE;
 
 
 	// END código del alumno
@@ -71,7 +69,8 @@ int main()
 		//EVOLUCIONO VARIABLES DE ESTADO
 
 		//Pasa 1 diferencial de tiempo DT
-		tiempo += DT;
+		juego_tiempo += JUEGO_DT;
+		graficador_inicializar (argv[1], renderer);
 
 		//Computo la aceleracion en x en ese preciso momento.
 		//Computo la velocidad en x
@@ -79,22 +78,12 @@ int main()
 		//Computo la posición en x
 		//Computo la posición en y
 		//La coordenada x deberá estar siempre entre 0 y VENTANA_ANCHO , si sobrepasara estos valores deberá reaparecer del otro lado.
-		if(posicion_en_x > VENTANA_ANCHO)
-			posicion_en_x = 0;
-
-		if(posicion_en_x < 0)
-			posicion_en_x = VENTANA_ANCHO;
 
 		//IMPRIMO LEYENDAS.
 
 		//Mientras x cosa se jugarán “partidas” del juego.
 		//Verifico x cosa. inicia una nueva partida?
-		if()
-		{
-			dormir = 3000;
 
-			//Reinicio la nave en su posicion y angulo inicial.
-		}
 		// END código del alumno
 
         SDL_RenderPresent(renderer);

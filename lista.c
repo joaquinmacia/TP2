@@ -1,14 +1,15 @@
-#include "lista.c"
+#include "lista.h"
+#include <stdlib.h>
 
 
-typedef struct nodo{
+struct nodo{
 	struct nodo* sig;
 	void* dato;
-} nodo_t;
+};
 
-typedef struct lista{
+struct lista{
 	struct nodo* prim;
-} lista_t;
+};
 
 //Funciones:
 
@@ -26,7 +27,7 @@ nodo_t* crear_nodo(void* d){
 }
 
 lista_t* lista_crear(){
-	
+
 	lista_t* l = malloc(sizeof(lista_t));
 	if (l == NULL)
 		return NULL;
@@ -109,7 +110,7 @@ void* lista_extraer_primero(lista_t* l){
 
 	if(lista_es_vacia(l))
 		return NULL;
-	
+
 	nodo_t* aux;
 
 	aux = l->prim;
@@ -141,7 +142,7 @@ void* lista_extraer_ultimo(lista_t* l){
 
 	free(aux);
 
-	retun aux_dato;
+	return aux_dato;
 
 }
 
@@ -165,7 +166,7 @@ void* lista_buscar(const lista_t* l, const void* dato, int (*cmp)(const void* a,
 
 
 // Aplica la funcion f() a cada uno de los elementos de la lista.
-// Asumimos lista no nula/vacia?. 
+// Asumimos lista no nula/vacia?.
 void lista_mapear(lista_t* l, void* (*f)(void* dato)){
 
 	if(lista_es_vacia(l))
@@ -177,7 +178,7 @@ void lista_mapear(lista_t* l, void* (*f)(void* dato)){
 	while(aux != NULL){
 		f(aux->dato);
 			//que hago?
-		aux = aux->sig;	
+		aux = aux->sig;
 	}
 
 
@@ -198,7 +199,7 @@ lista_t* lista_filtrar(lista_t* l, bool (*f)(void* dato, void* extra), void* ext
 		if(f(l->prim->dato, extra)){
 			//insertar y mover lprim.
 			//OJO que insertar en el primero da la nueva lista es un caso de borde.
-			
+
 		}
 
 }

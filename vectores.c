@@ -1,10 +1,9 @@
 #include "vectores.h"
-#include "terreno.h"
 #include <math.h>
 
 
 bool vector_esta_arriba (float **v, size_t n, float x, float y){
-	
+
 	float aux;
 	aux = terreno_distancia (v, n, x, y);
 	return aux > 0 ? true : false;
@@ -12,18 +11,18 @@ bool vector_esta_arriba (float **v, size_t n, float x, float y){
 
 
 void vector_trasladar (float **v, size_t n, float dx, float dy) {
-	
+
 	size_t i = 0;
 	for (i = 0; i < n; i++){
 		v[i][0] += dx;
 		v[i][1] += dy;
-	}	
+	}
 }
 
 
 void vector_rotar (float **v, size_t n, double rad){
-	
-	size_t i; 
+
+	size_t i;
 	float coord_x, coord_y;
 	float coseno = cos(rad);
 	float seno = sin(rad);
@@ -54,10 +53,10 @@ float** vector_desde_matriz (const float m[][CANT_COLUMNAS], size_t n){
 
 	//Creacion de la matriz dinamica.
 	matriz_dinam = vector_dinam_crear(n, CANT_COLUMNAS);
-		
+
 	if(matriz_dinam == NULL)
 		return NULL;
-	
+
 	//Copiado de la matriz estatica recibida al vector dinamico creado.
 	for(i = 0; i < n; i++)
 		for(j = 0; j < CANT_COLUMNAS; j++)
@@ -79,7 +78,7 @@ float** vector_dinam_crear (size_t fil, size_t col){
 
 	for(i = 0; i < fil; i++){
 		d_matriz[i] = (float *) malloc (sizeof(float) * col);
-		
+
 		if(d_matriz[i] == NULL){
 			vector_destruir(d_matriz, i, CANT_COLUMNAS);
 			return NULL;
@@ -90,7 +89,7 @@ float** vector_dinam_crear (size_t fil, size_t col){
 
 
 void vector_imprimir (float **m, size_t fil, size_t col){
-	
+
 	for(size_t i = 0; i < fil; i++){
 		for(size_t j = 0; j < col; j++)
 			printf("[%f] \t", m[i][j]);
@@ -111,7 +110,7 @@ float** vector_densificar (float **v, size_t nv, size_t nn, float margen){
 		return NULL;
 
 	aux = vector_dinam_crear (nn, CANT_COLUMNAS);
-	
+
 	if (aux == NULL)
 		return NULL;
 
@@ -142,7 +141,7 @@ float generar_elemento_aleatorio (float limite_inf, float limite_sup){
 	float r = aleatorio * diferencia;
 
 	return limite_inf + r;
-	
+
 }
 
 
@@ -191,7 +190,6 @@ float ** vector_copiar (float ** viejo, float ** nuevo, size_t n, size_t m){
 			nuevo[i][j] = viejo[i][j];
 		}
 	}
-	
+
 	return nuevo;
 }
-
